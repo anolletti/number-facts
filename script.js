@@ -7,7 +7,7 @@ const submitBtn = document.getElementById("submit");
 const numberField = document.getElementById("numberField");
 const text = document.getElementById("text");
 const languageBtn = document.getElementById("languageBtn");
-const key = "03ffb42a0bmsh0844764ce0dfaedp16e4a5jsn2e7131406e47";
+const key = config.RAPID_API_KEY;
 let language = "en";
 
 $('[lang="fr"]').hide();
