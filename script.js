@@ -7,6 +7,7 @@ const submitBtn = document.getElementById("submit");
 const numberField = document.getElementById("numberField");
 const text = document.getElementById("text");
 const languageBtn = document.getElementById("languageBtn");
+const key = config.RAPID_API_KEY
 let language = "en";
 
 $('[lang="fr"]').hide();
@@ -55,7 +56,7 @@ function onSubmit() {
   const options = {
     method: "GET",
     headers: {
-      "X-RapidAPI-Key": "03ffb42a0bmsh0844764ce0dfaedp16e4a5jsn2e7131406e47",
+      "X-RapidAPI-Key": key,
       "X-RapidAPI-Host": "numbersapi.p.rapidapi.com",
       "access-control-allow-credentials": "true",
       "access-control-allow-origin": "*",
@@ -104,7 +105,7 @@ function translateText(toTranslate, lang) {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "03ffb42a0bmsh0844764ce0dfaedp16e4a5jsn2e7131406e47",
+      "X-RapidAPI-Key": key,
       "X-RapidAPI-Host": "microsoft-translator-text.p.rapidapi.com",
     },
 
