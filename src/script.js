@@ -52,40 +52,10 @@ function onSubmit() {
     return false;
   }
   userInput = numberField.value;
-  console.log(userInput);
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Key": key,
-      "X-RapidAPI-Host": "numbersapi.p.rapidapi.com",
-      "access-control-allow-credentials": "true",
-      "access-control-allow-origin": "*",
-      "cache-control":
-        "no-cache, no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
-      "content-length": "164",
-      "content-type": "application/json; charset=utf-8",
-      date: "Thu, 24 Nov 2022 19:01:07 GMT",
-      etag: 'W/"a4-HYOjGFi75uXRi+Bu6/qVbv5HF5M"',
-      expires: "0",
-      "last-modified": "1669316722",
-      pragma: "no-cache",
-      server: "RapidAPI-1.2.8",
-      "x-numbers-api-number": userInput,
-      "x-numbers-api-type": "trivia",
-      "x-powered-by": "Express",
-      "x-rapidapi-region": "AWS - us-east-1",
-      "x-rapidapi-version": "1.2.8",
-    },
-  };
 
-  fetch(
-    `https://numbersapi.p.rapidapi.com/${userInput}/trivia?fragment=true&notfound=floor&json=true`,
-    options
-  )
+  fetch(`/.netlify/functions/fetch-fact?number=${userInput}`)
     .then((response) => response.json())
-    .then((response) => printText(response.text))
-
-    .catch((err) => console.error(err));
+    .then((response) => printText(response));
 
   text.classList.remove("d-none");
 }
@@ -101,25 +71,17 @@ function printText(textInput) {
 }
 
 function translateText(toTranslate, lang) {
-  const options2 = {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "X-RapidAPI-Key": key,
-      "X-RapidAPI-Host": "microsoft-translator-text.p.rapidapi.com",
-    },
-
-    body: `[{"Text":"${toTranslate}"}]`,
-  };
-
-  fetch(
-    `https://microsoft-translator-text.p.rapidapi.com/translate?to%5B0%5D=${lang}&api-version=3.0&profanityAction=NoAction&textType=plain`,
-
-    options2
-  )
+  const params = { headers: { text: `${toTranslate}`, lang: `${lang}` } };
+  fetch(`/.netlify/functions/translate`, params)
     .then((response) => response.json())
     .then(
       (response) => (factElement.innerHTML = response[0].translations[0].text)
-    )
-    .catch((err) => console.error(err));
+    );
 }
+
+// To translate
+
+const params = { headers: { text: "Hello", lang: "fr" } };
+fetch(`/.netlify/functions/translate`, params)
+  .then((response) => response.json())
+  .then((response) => console.log(response[0].translations[0].text));
